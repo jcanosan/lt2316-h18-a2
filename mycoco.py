@@ -22,6 +22,7 @@ from pycocotools.coco import COCO
 
 annotcoco = None
 capcoco = None
+catdict = {}
 
 # OK back to normal.
 import random
@@ -37,6 +38,7 @@ def setmode(mode):
     global capfile
     global imgdir
     global annotcoco, capcoco
+    global catdict
     if mode == "train":
         annotfile = TRAIN_ANNOT_FILE
         capfile = TRAIN_CAP_FILE
@@ -51,6 +53,9 @@ def setmode(mode):
     annotcoco = COCO(annotfile)
     capcoco = COCO(capfile)
 
+    # To facilitate category lookup.
+    cats = annotcoco.getCatIds()
+    catdict = {x:(annotcoco.loadCats(ids=[x])[0]['name']) for x in cats}
     
 def query(queries, exclusive=True):
     '''
@@ -72,6 +77,23 @@ def query(queries, exclusive=True):
             return [list(y) for y in imgsets]
     else:
         return [list(imgsets[0])]
+    
+def get_captions_for_ids(idlist):
+    annids =  capcoco.getAnnIds(imgIds=idlist)
+    anns = capcoco.loadAnns(annids)
+    return [ann['caption'] for ann in anns]    
+
+def get_cats_for_img(imgid):
+    '''
+    Takes an image id and gets a category list for it.
+    '''
+    if not annotcoco:
+        raise ValueError
+        
+    imgannids = annotcoco.getAnnIds(imgIds=imgid)
+    imganns = annotcoco.loadAnns(imgannids)
+    return list(set([catdict[x['category_id']] for x in imganns]))
+    
     
 def iter_captions(idlists, cats, batch=1):
     '''
@@ -108,6 +130,43 @@ def iter_captions(idlists, cats, batch=1):
                     captions = []
                     labels = []
 
+def iter_captions_cats(idlists, cats, batch=1):
+    '''
+    Obtains the corresponding captions from multiple COCO id lists alongside all associated image captions per image.
+    Randomizes the order.  
+    Returns an infinite iterator (do not convert to list!) that returns tuples (captions, categories)
+    as parallel lists at size of batch.
+    '''
+    if not capcoco:
+        raise ValueError
+    if batch < 1:
+        raise ValueError
+
+    full = []
+    for z in zip(idlists, cats):
+        for x in z[0]:
+            full.append((x, z[1]))
+        
+    while True:
+        randomlist = random.sample(full, k=len(full))
+        captions = []
+        labels = []
+
+        for p in randomlist:
+            annids =  capcoco.getAnnIds(imgIds=[p[0]])
+            anns = capcoco.loadAnns(annids)
+            for ann in anns:
+                imgid = ann['image_id']
+                cats = get_cats_for_img(imgid)
+                captions.append((ann['caption'], cats))
+                # For LSTM you may want to do more with the captions
+                # or otherwise distribute the data.
+                labels.append(p[1])
+                if len(captions) % batch == 0:
+                    yield (captions, labels)
+                    captions = []
+                    labels = []
+                    
 def iter_images(idlists, cats, size=(200,200), batch=1):
     '''
     Obtains the corresponding image data as numpy array from multiple COCO id lists.
