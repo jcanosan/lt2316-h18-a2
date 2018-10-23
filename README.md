@@ -3,12 +3,13 @@
 Git project for implementing assignment 2 in [Asad Sayeed's](https://asayeed.github.io) machine learning class in the University of Gothenburg's Masters
 of Language Technology programme.
 
+## Your notes
 
-##Instructions to run the code.
+### Instructions to run the code.
 For running train.py, the following arguments are needed:\
-python3 train.py --option --maxinstances checkpointdir modelfile categories\
+python3 train.py --option --maxinstances checkpointdir modelfile categories
 - option must be B (-PB).
-- maxinstances is the maximum number of instances of MS COCO for training.\
+- maxinstances is the maximum number of instances of MS COCO for training.
 Warning: If it is set to train more than 400,000 captions, the program raises a MemoryError
 when building categorical one-hot vectors that are needed to train the softmax output.
 - checkpointdir is the directory where the model checkpoints are saved.
@@ -19,14 +20,14 @@ inside the folder "models/", but this folder does not have to be specified.
 For running test.py, the following arguments are needed:\
 python3 test.py --option --maxinstances modelfile categories caption
 - option must be B (-PB).
-- maxinstances is the maximum number of instances of MS COCO for testing.\
+- maxinstances is the maximum number of instances of MS COCO for testing.
 - modelfile is the name of the file with the trained model. This file will be inside 
 the folder "models/", but this folder has not to be specified.
 - categories are the (2 or more) categories chosen to test the model. For testing the 
 models that I have trained, these must be 'laptop' and 'bird'.
 - caption is a string with an incomplete caption to predict the last word and categories.
 
-##Report of the assignment.
+### Report of the assignment.
 The main recurring neural network (RNN) architecture chosen for this project has 
 the following structure:
 
@@ -102,13 +103,13 @@ it learns more from the specific categories than from the general initial train,
 is only done because LSTM needs a lot of data to train a model that performs well.
 \[https://blog.paperspace.com/intro-to-optimization-momentum-rmsprop-adam/]
 
-When fitting the model:\
+When fitting the model:
 - Epochs = 10. I suppose I should have done more (at least 30 or 40, I guess) to train a
 more optimized model, but that was not possible due to time constrictions.
 - Batch size = 100. There is no specific reason for choosing to use 100 training 
 examples on each iteration, I really don't if it is big enough.
 
-##Evaluation:
+##### Evaluation:
 
 The model file of the main model is: lstm+dropout-lr0.002.h5
 
@@ -198,7 +199,7 @@ Even if the preliminary training in captions of the whole dataset is done in 400
 captions, the retraining in the specific categories is done in 33,820 captions.
 
 
-##Architectural variant of my network
+#### Architectural variant of my network
 As an architectural variant for my network, I have deleted of the second LSTM layer
 of my RNN. Doing so, I reduce the depth of my model, which (in theory) should make my
 model worse.
@@ -258,7 +259,7 @@ In conclusion, it seems that the model performs better with less depth, which is
 that I was not expecting when I designed my LSTM neural network.
 
 
-##One learning_rate variant
+#### One learning_rate variant
 Firstly, I know that I should have test two variants, but I have not done so due to time 
 constrictions.
 
@@ -325,7 +326,7 @@ to the first general training has made the model to give higher scores to the tw
 categories, but looking at the rest of examples that does not seem to be the case.
 
 
-##What I have learned with this assignment
+#### What I have learned with this assignment
 As it has been my first contact with neural networks and Keras, it has been really hard but in
 the end I have learned a lot about how to design, run and test them. 
 Among other things, this is what I think that is the main knowledge that I have acquired:
