@@ -57,7 +57,7 @@ the willing to experiment with this layer.
 A second stacked LSTM layer to add depth to the model. Adding additional hidden layers is
 "understood to recombine the learned representation from prior layers and create 
 new representations at high levels of abstraction". This should make the model better, in theory.\
-\[https://machinelearningmastery.com/stacked-long-short-term-memory-networks/]\
+\[https://machinelearningmastery.com/stacked-long-short-term-memory-networks/] \
 Again, I turn True return_sequences. I do so because the input of the following 
 following layers of the two branches needs to be 3D.
 
