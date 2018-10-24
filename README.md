@@ -45,7 +45,7 @@ the old outputs and learns from the necessary information of those old outputs.\
 I needed to turn return_sequences=True because I have a second LSTM layer in my architecture.
 When this argument is True, the output of the LSTM is a 3D array instead of a 2D. This 
 dimensionality is required as an input of an LSTM layer.
-\[https://towardsdatascience.com/understanding-lstm-and-its-quick-implementation-in-keras-for-sentiment-analysis-af410fd85b47]
+\[ https://towardsdatascience.com/understanding-lstm-and-its-quick-implementation-in-keras-for-sentiment-analysis-af410fd85b47 ]
 
 - Dropout.\
 The dropout layer is useful to prevent overfitting by "randomly setting a fraction 
@@ -57,7 +57,7 @@ the willing to experiment with this layer.
 A second stacked LSTM layer to add depth to the model. Adding additional hidden layers is
 "understood to recombine the learned representation from prior layers and create 
 new representations at high levels of abstraction". This should make the model better, in theory.\
-\[https://machinelearningmastery.com/stacked-long-short-term-memory-networks/] \
+\[ https://machinelearningmastery.com/stacked-long-short-term-memory-networks/ ] \
 Again, I turn True return_sequences. I do so because the input of the following 
 following layers of the two branches needs to be 3D.
 
@@ -89,7 +89,7 @@ As for the compiler, I have used:
 This loss function measures the performance of a model whose output is a probability 
 value between 0 and 1, which is what results from the outputs of this model. The more 
 the predicted probability diverges from the observed label, the higher is the loss measure.\
-\[https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html]
+\[ https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html ]
 - Sigmoid output: binary cross-entropy loss function.\
 This loss function does the same as the categorical one, but only with two possible
 labels. In our data, those two labels are 0 and 1 for each category.
@@ -101,7 +101,7 @@ captions (33,820) the learning_rate=0.002.
 This difference is due to the fact that it's more interesting for our model that 
 it learns more from the specific categories than from the general initial train, which
 is only done because LSTM needs a lot of data to train a model that performs well.
-\[https://blog.paperspace.com/intro-to-optimization-momentum-rmsprop-adam/]
+\[ https://blog.paperspace.com/intro-to-optimization-momentum-rmsprop-adam/ ]
 
 When fitting the model:
 - Epochs = 10. I suppose I should have done more (at least 30 or 40, I guess) to train a
