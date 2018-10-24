@@ -44,7 +44,7 @@ learn long-term dependencies because it compares constantly the new inputs to th
 the old outputs and learns from the necessary information of those old outputs.\
 I needed to turn return_sequences=True because I have a second LSTM layer in my architecture.
 When this argument is True, the output of the LSTM is a 3D array instead of a 2D. This 
-dimensionality is required as an input of an LSTM layer.
+dimensionality is required as an input of an LSTM layer. \
 \[ https://towardsdatascience.com/understanding-lstm-and-its-quick-implementation-in-keras-for-sentiment-analysis-af410fd85b47 ]
 
 - Dropout.\
@@ -100,7 +100,7 @@ dataset, the learning_rate=0.001, while in the retraining for the specified cate
 captions (33,820) the learning_rate=0.002. 
 This difference is due to the fact that it's more interesting for our model that 
 it learns more from the specific categories than from the general initial train, which
-is only done because LSTM needs a lot of data to train a model that performs well.
+is only done because LSTM needs a lot of data to train a model that performs well. \
 \[ https://blog.paperspace.com/intro-to-optimization-momentum-rmsprop-adam/ ]
 
 When fitting the model:
